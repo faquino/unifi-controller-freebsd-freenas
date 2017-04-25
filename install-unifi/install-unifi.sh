@@ -7,7 +7,7 @@
 UNIFI_SOFTWARE_URL="https://www.ubnt.com/downloads/unifi/5.5.9-b608d637ae/UniFi.unix.zip"
 
 # The rc script associated with this branch or fork:
-RC_SCRIPT_URL="https://raw.githubusercontent.com/Chrismarsh/unifi-freenas/master/rc.d/unifi.sh"
+RC_SCRIPT_URL="https://raw.githubusercontent.com/faquino/unifi-controller-freebsd-freenas/master/rc.d/unifi5"
 
 # If pkg-ng is not yet installed, bootstrap it:
 if ! /usr/sbin/pkg -N 2> /dev/null; then
@@ -24,9 +24,9 @@ fi
 
 # Stop the controller if it's already running...
 # First let's try the rc script if it exists:
-if [ -f /usr/local/etc/rc.d/unifi.sh ]; then
+if [ -f /usr/local/etc/rc.d/unifi5 ]; then
   echo -n "Stopping the unifi service..."
-  /usr/sbin/service unifi.sh stop
+  /usr/sbin/service unifi5 stop
   echo " done."
 fi
 
@@ -96,18 +96,18 @@ echo " done."
 
 # Fetch the rc script from github:
 echo -n "Installing rc script..."
-/usr/bin/fetch -o /usr/local/etc/rc.d/unifi.sh ${RC_SCRIPT_URL}
+/usr/bin/fetch -o /usr/local/etc/rc.d/unifi5 ${RC_SCRIPT_URL}
 echo " done."
 
 # Fix permissions so it'll run
-chmod +x /usr/local/etc/rc.d/unifi.sh
+chmod +x /usr/local/etc/rc.d/unifi5
 
 # Add the startup variable to rc.conf.local.
 # Eventually, this step will need to be folded into pfSense, which manages the main rc.conf.
 # In the following comparison, we expect the 'or' operator to short-circuit, to make sure the file exists and avoid grep throwing an error.
-if [ ! -f /etc/rc.conf.local ] || [ $(grep -c unifi_enable /etc/rc.conf.local) -eq 0 ]; then
+if [ ! -f /etc/rc.conf.local ] || [ $(grep -c unifi5_enable /etc/rc.conf.local) -eq 0 ]; then
   echo -n "Enabling the unifi service..."
-  echo "unifi_enable=YES" >> /etc/rc.conf.local
+  echo "unifi5_enable=YES" >> /etc/rc.conf.local
   echo " done."
 fi
 
@@ -125,5 +125,5 @@ env ASSUME_ALWAYS_YES=YES /usr/sbin/pkg install snappyjava
 
 # Start it up:
 echo -n "Starting the unifi service..."
-/usr/sbin/service unifi.sh start
+/usr/sbin/service unifi5 start
 echo " done."
