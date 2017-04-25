@@ -15,7 +15,7 @@ pidfile="/var/run/${name}.pid"
 
 load_rc_config ${name}
 
-unifi_start()
+unifi5_start()
 {
   if checkyesno ${rcvar}; then
     echo "Starting UniFi controller. "
@@ -32,7 +32,7 @@ unifi_start()
   fi
 }
 
-unifi_stop()
+unifi5_stop()
 {
 
   if [ -f $pidfile ]; then
