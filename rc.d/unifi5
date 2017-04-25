@@ -6,10 +6,10 @@
 
 . /etc/rc.subr
 
-name="unifi"
-rcvar="unifi_enable"
-start_cmd="unifi_start"
-stop_cmd="unifi_stop"
+name="unifi5"
+rcvar="unifi5_enable"
+start_cmd="unifi5_start"
+stop_cmd="unifi5_stop"
 
 pidfile="/var/run/${name}.pid"
 
